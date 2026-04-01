@@ -14,16 +14,17 @@ function Section({ title, children }) {
 
 export default function PrivacyPolicy() {
   return (
-    <div className="max-w-3xl mx-auto px-4 py-16 md:py-24">
-      <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.5 }} className="text-center mb-14">
-        <div className="w-16 h-16 mx-auto rounded-2xl bg-purple-600 flex items-center justify-center mb-6 shadow-lg shadow-purple-200">
-          <Shield size={30} className="text-white" />
+    <div className="max-w-3xl mx-auto px-3 sm:px-4 py-10 sm:py-16 md:py-24">
+      <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.5 }} className="text-center mb-10 sm:mb-14">
+        <div className="w-12 h-12 sm:w-16 sm:h-16 mx-auto rounded-xl sm:rounded-2xl bg-purple-600 flex items-center justify-center mb-4 sm:mb-6 shadow-lg shadow-purple-200">
+          <Shield size={24} className="text-white sm:hidden" />
+          <Shield size={30} className="text-white hidden sm:block" />
         </div>
-        <h1 className="text-3xl md:text-4xl font-extrabold text-slate-900 mb-3">Privacy Policy</h1>
-        <p className="text-slate-400 text-sm">Last updated: March 2026</p>
+        <h1 className="text-2xl sm:text-3xl md:text-4xl font-extrabold text-slate-900 mb-2 sm:mb-3">Privacy Policy</h1>
+        <p className="text-slate-400 text-xs sm:text-sm">Last updated: March 2026</p>
       </motion.div>
 
-      <div className="card p-8 md:p-12">
+      <div className="card p-5 sm:p-8 md:p-12">
         <Section title="1. Introduction">
           <p>Welcome to EtherSwap. We are committed to protecting your privacy and ensuring transparency about how we handle your data. This Privacy Policy explains what information we collect, how we use it, and your rights regarding your personal data.</p>
         </Section>

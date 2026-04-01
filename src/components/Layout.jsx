@@ -15,13 +15,13 @@ function TrustTicker() {
   ];
 
   return (
-    <div className="bg-slate-50 border-b border-slate-100 overflow-hidden py-2.5">
+    <div className="bg-slate-50 border-b border-slate-100 overflow-hidden py-2 sm:py-2.5">
       <div className="ticker-track">
         {[...items, ...items, ...items, ...items].map((item, i) => (
-          <div key={i} className="flex items-center gap-2 px-6 text-slate-400 text-xs font-medium whitespace-nowrap">
+          <div key={i} className="flex items-center gap-1.5 sm:gap-2 px-4 sm:px-6 text-slate-400 text-[11px] sm:text-xs font-medium whitespace-nowrap">
             <span className="text-purple-400">{item.icon}</span>
             <span>{item.text}</span>
-            <span className="text-purple-300 mx-4">&#9670;</span>
+            <span className="text-purple-300 mx-2 sm:mx-4">&#9670;</span>
           </div>
         ))}
       </div>
@@ -46,6 +46,16 @@ function Navbar() {
     window.scrollTo(0, 0);
   }, [location]);
 
+  // Lock body scroll when mobile menu is open
+  useEffect(() => {
+    if (mobileOpen) {
+      document.body.style.overflow = 'hidden';
+    } else {
+      document.body.style.overflow = '';
+    }
+    return () => { document.body.style.overflow = ''; };
+  }, [mobileOpen]);
+
   const navLinks = [
     { to: '/', label: 'Home' },
     { to: '/privacy-policy', label: 'Privacy Policy' },
@@ -61,17 +71,18 @@ function Navbar() {
             : 'bg-white/70 backdrop-blur-md'
         }`}
       >
-        <nav className="max-w-6xl mx-auto px-5 h-[72px] flex items-center justify-between">
+        <nav className="max-w-6xl mx-auto px-3 sm:px-5 h-[60px] sm:h-[72px] flex items-center justify-between gap-2">
           {/* Logo */}
-          <Link to="/" className="flex items-center gap-3 group">
+          <Link to="/" className="flex items-center gap-2 sm:gap-3 flex-shrink-0">
             <motion.div
               whileHover={{ rotate: 180 }}
               transition={{ duration: 0.5 }}
-              className="w-10 h-10 bg-purple-600 rounded-xl flex items-center justify-center shadow-md shadow-purple-200"
+              className="w-8 h-8 sm:w-10 sm:h-10 bg-purple-600 rounded-lg sm:rounded-xl flex items-center justify-center shadow-md shadow-purple-200"
             >
-              <ArrowDownUp size={20} className="text-white" />
+              <ArrowDownUp size={16} className="text-white sm:hidden" />
+              <ArrowDownUp size={20} className="text-white hidden sm:block" />
             </motion.div>
-            <span className="text-xl font-extrabold tracking-tight text-slate-900">
+            <span className="text-lg sm:text-xl font-extrabold tracking-tight text-slate-900">
               Ether<span className="text-purple-600">Swap</span>
             </span>
           </Link>
@@ -94,14 +105,14 @@ function Navbar() {
           </div>
 
           {/* Right side */}
-          <div className="flex items-center gap-3">
-            {/* Phone CTA */}
+          <div className="flex items-center gap-1.5 sm:gap-3">
+            {/* Phone CTA - hidden on small screens */}
             {CONTACT_NUMBER && (
               <a href={`tel:${CONTACT_NUMBER}`}>
                 <motion.div
                   whileHover={{ scale: 1.03 }}
                   whileTap={{ scale: 0.97 }}
-                  className="hidden md:flex items-center gap-2 px-5 py-2.5 bg-purple-600 text-white rounded-full text-sm font-semibold shadow-md shadow-purple-200 hover:bg-purple-700 transition-colors"
+                  className="hidden md:flex items-center gap-2 px-4 sm:px-5 py-2 sm:py-2.5 bg-purple-600 text-white rounded-full text-sm font-semibold shadow-md shadow-purple-200 hover:bg-purple-700 transition-colors"
                 >
                   <Phone size={15} />
                   {CONTACT_NUMBER}
@@ -109,11 +120,11 @@ function Navbar() {
               </a>
             )}
 
-            {/* Compact on mobile, full on desktop */}
+            {/* Connect Button - compact on mobile */}
             <div className="hidden lg:block">
               <ConnectButton />
             </div>
-            <div className="lg:hidden">
+            <div className="lg:hidden [&>div]:!p-0">
               <ConnectButton
                 accountStatus="avatar"
                 chainStatus="none"
@@ -123,9 +134,9 @@ function Navbar() {
 
             <button
               onClick={() => setMobileOpen(!mobileOpen)}
-              className="lg:hidden text-slate-600 hover:text-slate-900 p-2 rounded-lg hover:bg-slate-100 transition-colors"
+              className="lg:hidden text-slate-600 hover:text-slate-900 p-1.5 sm:p-2 rounded-lg hover:bg-slate-100 transition-colors"
             >
-              {mobileOpen ? <X size={22} /> : <Menu size={22} />}
+              {mobileOpen ? <X size={20} /> : <Menu size={20} />}
             </button>
           </div>
         </nav>
@@ -140,7 +151,7 @@ function Navbar() {
               transition={{ duration: 0.25 }}
               className="lg:hidden overflow-hidden bg-white/95 backdrop-blur-xl border-b border-slate-200"
             >
-              <div className="px-5 py-5 flex flex-col gap-1">
+              <div className="px-4 sm:px-5 py-4 sm:py-5 flex flex-col gap-1">
                 {navLinks.map((link) => (
                   <Link
                     key={link.to}
@@ -155,7 +166,8 @@ function Navbar() {
                   </Link>
                 ))}
                 {CONTACT_NUMBER && (
-                  <a href={`tel:${CONTACT_NUMBER}`} className="px-4 py-3 text-purple-600 font-semibold">
+                  <a href={`tel:${CONTACT_NUMBER}`} className="px-4 py-3 text-purple-600 font-semibold flex items-center gap-2">
+                    <Phone size={16} />
                     {CONTACT_NUMBER}
                   </a>
                 )}
@@ -169,7 +181,7 @@ function Navbar() {
       </header>
 
       {/* Trust Ticker - below nav */}
-      <div className="pt-[72px]">
+      <div className="pt-[60px] sm:pt-[72px]">
         <TrustTicker />
       </div>
     </>
@@ -182,14 +194,14 @@ function Footer() {
 
   return (
     <footer className="bg-slate-50 border-t border-slate-200">
-      <div className="max-w-6xl mx-auto px-5 py-14">
-        <div className="grid grid-cols-1 md:grid-cols-4 gap-10">
-          <div className="md:col-span-2">
-            <div className="flex items-center gap-3 mb-4">
-              <div className="w-9 h-9 bg-purple-600 rounded-xl flex items-center justify-center">
-                <ArrowDownUp size={18} className="text-white" />
+      <div className="max-w-6xl mx-auto px-4 sm:px-5 py-10 sm:py-14">
+        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-8 sm:gap-10">
+          <div className="sm:col-span-2">
+            <div className="flex items-center gap-2 sm:gap-3 mb-3 sm:mb-4">
+              <div className="w-8 h-8 sm:w-9 sm:h-9 bg-purple-600 rounded-lg sm:rounded-xl flex items-center justify-center">
+                <ArrowDownUp size={16} className="text-white" />
               </div>
-              <span className="text-lg font-extrabold tracking-tight text-slate-900">
+              <span className="text-base sm:text-lg font-extrabold tracking-tight text-slate-900">
                 Ether<span className="text-purple-600">Swap</span>
               </span>
             </div>
@@ -200,24 +212,24 @@ function Footer() {
           </div>
 
           <div>
-            <h4 className="text-slate-900 font-bold text-xs mb-4 tracking-wider uppercase">Quick Links</h4>
-            <div className="flex flex-col gap-2.5">
+            <h4 className="text-slate-900 font-bold text-xs mb-3 sm:mb-4 tracking-wider uppercase">Quick Links</h4>
+            <div className="flex flex-col gap-2 sm:gap-2.5">
               <Link to="/" className="text-slate-400 hover:text-purple-600 text-sm transition-colors">Home</Link>
             </div>
           </div>
 
           <div>
-            <h4 className="text-slate-900 font-bold text-xs mb-4 tracking-wider uppercase">Legal</h4>
-            <div className="flex flex-col gap-2.5">
+            <h4 className="text-slate-900 font-bold text-xs mb-3 sm:mb-4 tracking-wider uppercase">Legal</h4>
+            <div className="flex flex-col gap-2 sm:gap-2.5">
               <Link to="/privacy-policy" className="text-slate-400 hover:text-purple-600 text-sm transition-colors">Privacy Policy</Link>
               <Link to="/terms" className="text-slate-400 hover:text-purple-600 text-sm transition-colors">Terms & Conditions</Link>
             </div>
           </div>
         </div>
 
-        <div className="mt-12 pt-6 border-t border-slate-200 flex flex-col md:flex-row items-center justify-between gap-4">
-          <p className="text-slate-400 text-sm">&copy; {currentYear} EtherSwap. All rights reserved.</p>
-          <p className="text-slate-400 text-xs">Swapping tokens with confidence.</p>
+        <div className="mt-8 sm:mt-12 pt-5 sm:pt-6 border-t border-slate-200 flex flex-col sm:flex-row items-center justify-between gap-3 sm:gap-4">
+          <p className="text-slate-400 text-xs sm:text-sm">&copy; {currentYear} EtherSwap. All rights reserved.</p>
+          <p className="text-slate-400 text-[11px] sm:text-xs">Swapping tokens with confidence.</p>
         </div>
       </div>
     </footer>

@@ -10,17 +10,22 @@
   padding: 0;
 }
 
-html {
+html, body {
   scroll-behavior: smooth;
+  overflow-x: hidden;
+  max-width: 100vw;
 }
 
 body {
   font-family: 'Inter', system-ui, -apple-system, sans-serif;
   background: #ffffff;
   color: #1e293b;
-  overflow-x: hidden;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+}
+
+#root {
+  overflow-x: hidden;
 }
 
 /* Selection */
@@ -224,7 +229,28 @@ body {
 .hero-animate-d5 { animation-delay: 0.4s; }
 .hero-animate-d6 { animation-delay: 0.5s; }
 
-/* hero-animate starts invisible via the animation 'from' state */
+/* ─── Shimmer / skeleton loading ─── */
+@keyframes shimmer {
+  0% { background-position: -200% 0; }
+  100% { background-position: 200% 0; }
+}
+
+.skeleton {
+  background: linear-gradient(90deg, #f1f5f9 25%, #e2e8f0 50%, #f1f5f9 75%);
+  background-size: 200% 100%;
+  animation: shimmer 1.5s infinite;
+  border-radius: 8px;
+}
+
+/* ─── Glow ring animation for swap button ─── */
+@keyframes glowRing {
+  0%, 100% { box-shadow: 0 0 0 0 rgba(147, 51, 234, 0.4); }
+  50% { box-shadow: 0 0 0 8px rgba(147, 51, 234, 0); }
+}
+
+.glow-ring {
+  animation: glowRing 2s ease-in-out infinite;
+}
 
 /* ─── 3D Floating Tokens ─── */
 .floating-tokens-container {
@@ -271,24 +297,47 @@ body {
 .float-anim-3 { animation: float3d-3 4.5s ease-in-out infinite; }
 .float-anim-4 { animation: float3d-4 7s ease-in-out infinite; }
 
-/* ─── Token positions: MOBILE (default) ─── */
-.ft-0 { width: 32px; height: 32px; top: 0%; left: -2%; opacity: 0.22; }
-.ft-1 { width: 28px; height: 28px; top: 5%; right: -1%; opacity: 0.18; }
-.ft-2 { width: 26px; height: 26px; top: 42%; left: -5%; opacity: 0.16; }
-.ft-3 { width: 24px; height: 24px; top: 60%; right: -3%; opacity: 0.15; }
-.ft-4 { width: 22px; height: 22px; top: 22%; right: -2%; opacity: 0.12; }
-.ft-5 { width: 20px; height: 20px; top: 80%; left: 3%; opacity: 0.1; }
+/* ─── Mobile improvements ─── */
+@media (max-width: 639px) {
+  .card {
+    border-radius: 12px;
+  }
+
+  .badge {
+    padding: 6px 14px;
+    font-size: 10px;
+  }
+
+  button, a {
+    -webkit-tap-highlight-color: transparent;
+  }
+}
+
+/* Safe area padding for notched phones */
+@supports (padding-bottom: env(safe-area-inset-bottom)) {
+  footer {
+    padding-bottom: calc(env(safe-area-inset-bottom) + 1rem);
+  }
+}
+
+/* ─── Token positions: MOBILE (default) — all kept inside parent bounds ─── */
+.ft-0 { width: 32px; height: 32px; top: 0%;  left: 2%;  opacity: 0.22; }
+.ft-1 { width: 28px; height: 28px; top: 5%;  right: 2%; opacity: 0.18; }
+.ft-2 { width: 26px; height: 26px; top: 42%; left: 0%;  opacity: 0.16; }
+.ft-3 { width: 24px; height: 24px; top: 60%; right: 0%; opacity: 0.15; }
+.ft-4 { width: 22px; height: 22px; top: 22%; right: 2%; opacity: 0.12; }
+.ft-5 { width: 20px; height: 20px; top: 80%; left: 3%;  opacity: 0.1; }
 .ft-6 { width: 26px; height: 26px; top: 12%; left: 82%; opacity: 0.14; }
 .ft-7 { width: 22px; height: 22px; top: 88%; right: 8%; opacity: 0.12; }
 
 /* ─── Token positions: DESKTOP (lg+) ─── */
 @media (min-width: 1024px) {
-  .ft-0 { width: 60px; height: 60px; top: 8%; left: 5%; opacity: 0.3; }
+  .ft-0 { width: 60px; height: 60px; top: 8%;  left: 5%;  opacity: 0.3; }
   .ft-1 { width: 50px; height: 50px; top: 15%; right: 8%; left: auto; opacity: 0.25; }
-  .ft-2 { width: 44px; height: 44px; top: 55%; left: 2%; opacity: 0.2; }
+  .ft-2 { width: 44px; height: 44px; top: 55%; left: 2%;  opacity: 0.2; }
   .ft-3 { width: 48px; height: 48px; top: 70%; right: 5%; left: auto; opacity: 0.22; }
-  .ft-4 { width: 42px; height: 42px; top: 35%; left: -2%; right: auto; opacity: 0.18; }
+  .ft-4 { width: 42px; height: 42px; top: 35%; left: 0%;  right: auto; opacity: 0.18; }
   .ft-5 { width: 38px; height: 38px; top: 85%; left: 15%; opacity: 0.15; }
-  .ft-6 { width: 46px; height: 46px; top: 5%; right: 25%; left: auto; opacity: 0.2; }
-  .ft-7 { width: 40px; height: 40px; top: 45%; right: 0%; left: auto; opacity: 0.17; }
+  .ft-6 { width: 46px; height: 46px; top: 5%;  right: 25%; left: auto; opacity: 0.2; }
+  .ft-7 { width: 40px; height: 40px; top: 45%; right: 0%;  left: auto; opacity: 0.17; }
 }
