@@ -25,7 +25,7 @@ class TokenService {
         address: 'native',
         decimals: 18,
         name: 'Ethereum',
-        logoURI: '⟠'
+        logoURI: 'https://assets.coingecko.com/coins/images/279/small/ethereum.png'
       };
 
       this.tokenCache[cacheKey] = [nativeToken, ...tokens];
@@ -160,16 +160,16 @@ class TokenService {
 
   getDefaultLogo(symbol) {
     const logos = {
-      'ETH': '⟠',
-      'USDT': '₮',
-      'USDC': '$',
-      'DAI': '◈',
-      'WETH': '⟠',
-      'WBTC': '₿',
-      'UNI': '🦄',
-      'LINK': '🔗'
+      'ETH': 'https://assets.coingecko.com/coins/images/279/small/ethereum.png',
+      'USDT': 'https://assets.coingecko.com/coins/images/325/small/Tether.png',
+      'USDC': 'https://assets.coingecko.com/coins/images/6319/small/USD_Coin_icon.png',
+      'DAI': 'https://assets.coingecko.com/coins/images/9956/small/Badge_Dai.png',
+      'WETH': 'https://assets.coingecko.com/coins/images/2518/small/weth.png',
+      'WBTC': 'https://assets.coingecko.com/coins/images/7598/small/wrapped_bitcoin_wbtc.png',
+      'UNI': 'https://assets.coingecko.com/coins/images/12504/small/uniswap-uni.png',
+      'LINK': 'https://assets.coingecko.com/coins/images/877/small/chainlink-new-logo.png'
     };
-    return logos[symbol] || '🪙';
+    return logos[symbol] || '';
   }
 
   searchTokens(tokens, query) {
