@@ -2,8 +2,10 @@ import { useState, useEffect } from 'react';
 import { Link, Outlet, useLocation } from 'react-router-dom';
 import { ConnectButton } from '@rainbow-me/rainbowkit';
 import { motion, AnimatePresence } from 'framer-motion';
+import { Toaster } from 'react-hot-toast';
 import { ArrowDownUp, Menu, X, Phone, Headphones, Shield, Users, Globe } from 'lucide-react';
 import { CONTACT_NUMBER } from '../utils/constants';
+import FloatingCTA from './FloatingCTA';
 
 /* ─── Trust Ticker ─── */
 function TrustTicker() {
@@ -18,7 +20,7 @@ function TrustTicker() {
     <div className="bg-slate-50 border-b border-slate-100 overflow-hidden py-2 sm:py-2.5">
       <div className="ticker-track">
         {[...items, ...items, ...items, ...items].map((item, i) => (
-          <div key={i} className="flex items-center gap-1.5 sm:gap-2 px-4 sm:px-6 text-slate-400 text-[11px] sm:text-xs font-medium whitespace-nowrap">
+          <div key={i} className="flex items-center gap-1.5 sm:gap-2 px-3 sm:px-6 text-slate-500 text-[11px] sm:text-xs font-medium whitespace-nowrap">
             <span className="text-purple-400">{item.icon}</span>
             <span>{item.text}</span>
             <span className="text-purple-300 mx-2 sm:mx-4">&#9670;</span>
@@ -46,7 +48,6 @@ function Navbar() {
     window.scrollTo(0, 0);
   }, [location]);
 
-  // Lock body scroll when mobile menu is open
   useEffect(() => {
     if (mobileOpen) {
       document.body.style.overflow = 'hidden';
@@ -71,20 +72,16 @@ function Navbar() {
             : 'bg-white/70 backdrop-blur-md'
         }`}
       >
-        <nav className="max-w-6xl mx-auto px-3 sm:px-5 h-[60px] sm:h-[72px] flex items-center justify-between gap-2">
+        <nav className="max-w-6xl mx-auto px-3 sm:px-5 h-[64px] sm:h-[76px] flex items-center justify-between gap-2">
           {/* Logo */}
           <Link to="/" className="flex items-center gap-2 sm:gap-3 flex-shrink-0">
-            <motion.div
-              whileHover={{ rotate: 180 }}
-              transition={{ duration: 0.5 }}
-              className="w-8 h-8 sm:w-10 sm:h-10 bg-purple-600 rounded-lg sm:rounded-xl flex items-center justify-center shadow-md shadow-purple-200"
-            >
-              <ArrowDownUp size={16} className="text-white sm:hidden" />
-              <ArrowDownUp size={20} className="text-white hidden sm:block" />
-            </motion.div>
-            <span className="text-lg sm:text-xl font-extrabold tracking-tight text-slate-900">
-              Ether<span className="text-purple-600">Swap</span>
-            </span>
+            <motion.img
+              whileHover={{ scale: 1.08 }}
+              transition={{ duration: 0.3 }}
+              src="/logo.png"
+              alt="EtherSwap"
+              className="h-12 sm:h-16 w-auto object-contain"
+            />
           </Link>
 
           {/* Desktop Nav */}
@@ -106,7 +103,6 @@ function Navbar() {
 
           {/* Right side */}
           <div className="flex items-center gap-1.5 sm:gap-3">
-            {/* Phone CTA - hidden on small screens */}
             {CONTACT_NUMBER && (
               <a href={`tel:${CONTACT_NUMBER}`}>
                 <motion.div
@@ -120,7 +116,6 @@ function Navbar() {
               </a>
             )}
 
-            {/* Connect Button - compact on mobile */}
             <div className="hidden lg:block">
               <ConnectButton />
             </div>
@@ -134,7 +129,9 @@ function Navbar() {
 
             <button
               onClick={() => setMobileOpen(!mobileOpen)}
-              className="lg:hidden text-slate-600 hover:text-slate-900 p-1.5 sm:p-2 rounded-lg hover:bg-slate-100 transition-colors"
+              aria-label={mobileOpen ? 'Close menu' : 'Open menu'}
+              aria-expanded={mobileOpen}
+              className="lg:hidden text-slate-600 hover:text-slate-900 p-2.5 sm:p-3 rounded-lg hover:bg-slate-100 transition-colors"
             >
               {mobileOpen ? <X size={20} /> : <Menu size={20} />}
             </button>
@@ -180,8 +177,7 @@ function Navbar() {
         </AnimatePresence>
       </header>
 
-      {/* Trust Ticker - below nav */}
-      <div className="pt-[60px] sm:pt-[72px]">
+      <div className="pt-[64px] sm:pt-[76px]">
         <TrustTicker />
       </div>
     </>
@@ -193,17 +189,12 @@ function Footer() {
   const currentYear = new Date().getFullYear();
 
   return (
-    <footer className="bg-slate-50 border-t border-slate-200">
+    <footer className="bg-gradient-to-b from-slate-50 to-slate-100 border-t-2 border-purple-100">
       <div className="max-w-6xl mx-auto px-4 sm:px-5 py-10 sm:py-14">
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-8 sm:gap-10">
           <div className="sm:col-span-2">
-            <div className="flex items-center gap-2 sm:gap-3 mb-3 sm:mb-4">
-              <div className="w-8 h-8 sm:w-9 sm:h-9 bg-purple-600 rounded-lg sm:rounded-xl flex items-center justify-center">
-                <ArrowDownUp size={16} className="text-white" />
-              </div>
-              <span className="text-base sm:text-lg font-extrabold tracking-tight text-slate-900">
-                Ether<span className="text-purple-600">Swap</span>
-              </span>
+            <div className="mb-3 sm:mb-4">
+              <img src="/logo.png" alt="EtherSwap" className="h-28 sm:h-36 w-auto object-contain" />
             </div>
             <p className="text-slate-400 text-sm leading-relaxed max-w-sm">
               Your trusted platform for Ethereum token swaps.
@@ -240,10 +231,24 @@ export default function Layout() {
   return (
     <div className="min-h-screen bg-white flex flex-col">
       <Navbar />
+      <Toaster
+        position="top-right"
+        toastOptions={{
+          style: {
+            background: '#fff',
+            color: '#1e293b',
+            border: '1px solid #e2e8f0',
+            borderRadius: '16px',
+            fontFamily: 'Inter, sans-serif',
+            boxShadow: '0 4px 20px rgba(0,0,0,0.08)',
+          },
+        }}
+      />
       <div className="flex-1">
         <Outlet />
       </div>
       <Footer />
+      <FloatingCTA />
     </div>
   );
 }

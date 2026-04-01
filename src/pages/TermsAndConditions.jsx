@@ -5,7 +5,7 @@ const fadeUp = { hidden: { opacity: 0, y: 24 }, visible: { opacity: 1, y: 0 } };
 
 function Section({ title, children }) {
   return (
-    <motion.div variants={fadeUp} initial="hidden" whileInView="visible" viewport={{ once: true, margin: '-40px' }} transition={{ duration: 0.4 }} className="mb-10">
+    <motion.div variants={fadeUp} initial="hidden" whileInView="visible" viewport={{ once: false, margin: '-40px' }} transition={{ duration: 0.4 }} className="mb-10">
       <h2 className="text-lg font-bold text-slate-900 mb-3">{title}</h2>
       <div className="text-slate-500 leading-relaxed space-y-3 text-[15px]">{children}</div>
     </motion.div>

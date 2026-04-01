@@ -1,0 +1,27 @@
+{
+  "name": "EtherSwap - Instant Token Swaps",
+  "short_name": "EtherSwap",
+  "description": "Swap 1000+ ERC-20 tokens instantly on Ethereum. Non-custodial, zero fees.",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#ffffff",
+  "theme_color": "#9333ea",
+  "icons": [
+    {
+      "src": "/logo192.png",
+      "sizes": "192x192",
+      "type": "image/png"
+    },
+    {
+      "src": "/logo512.png",
+      "sizes": "512x512",
+      "type": "image/png"
+    },
+    {
+      "src": "/logo512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "maskable"
+    }
+  ]
+}

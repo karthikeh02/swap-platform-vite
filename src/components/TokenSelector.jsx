@@ -52,6 +52,13 @@ export default function TokenSelector({ tokens, selectedToken, onSelect, onClose
   const [visibleCount, setVisibleCount] = useState(BATCH_SIZE);
   const listRef = useRef(null);
 
+  // Escape key to close
+  useEffect(() => {
+    const handleKeyDown = (e) => { if (e.key === 'Escape') onClose(); };
+    document.addEventListener('keydown', handleKeyDown);
+    return () => document.removeEventListener('keydown', handleKeyDown);
+  }, [onClose]);
+
   useEffect(() => {
     if (!search) {
       setFilteredTokens(tokens);
@@ -131,6 +138,7 @@ export default function TokenSelector({ tokens, selectedToken, onSelect, onClose
                 value={search}
                 onChange={(e) => setSearch(e.target.value)}
                 placeholder="Search name, symbol or address"
+                aria-label="Search tokens by name, symbol or address"
                 className="w-full bg-slate-50 text-slate-900 pl-10 sm:pl-12 pr-4 sm:pr-6 py-3 sm:py-4 rounded-xl sm:rounded-2xl outline-none border border-slate-200 focus:border-purple-400 focus:ring-2 focus:ring-purple-100 transition-all placeholder-slate-400 text-sm sm:text-base"
                 autoFocus
               />
@@ -143,7 +151,19 @@ export default function TokenSelector({ tokens, selectedToken, onSelect, onClose
             onScroll={handleScroll}
             className="flex-1 overflow-y-auto overscroll-contain"
           >
-            {filteredTokens.length === 0 ? (
+            {tokens.length === 0 ? (
+              <div className="p-2">
+                {Array.from({ length: 6 }).map((_, i) => (
+                  <div key={i} className="flex items-center gap-4 p-4">
+                    <div className="skeleton w-12 h-12 rounded-xl flex-shrink-0" />
+                    <div className="flex-1 space-y-2">
+                      <div className="skeleton h-4 w-20" />
+                      <div className="skeleton h-3 w-32" />
+                    </div>
+                  </div>
+                ))}
+              </div>
+            ) : filteredTokens.length === 0 ? (
               <motion.div
                 initial={{ opacity: 0, scale: 0.95 }}
                 animate={{ opacity: 1, scale: 1 }}
@@ -159,7 +179,7 @@ export default function TokenSelector({ tokens, selectedToken, onSelect, onClose
                     key={token.address}
                     initial={{ opacity: 0, x: -12 }}
                     animate={{ opacity: 1, x: 0 }}
-                    transition={{ duration: 0.2, delay: Math.min(index * 0.02, 0.3) }}
+                    transition={{ duration: 0.2, delay: index * 0.02 }}
                     whileTap={{ scale: 0.98, backgroundColor: 'rgba(147, 51, 234, 0.08)' }}
                     onClick={() => {
                       onSelect(token);

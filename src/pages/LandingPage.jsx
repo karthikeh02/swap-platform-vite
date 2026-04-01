@@ -1,6 +1,5 @@
 import { useState, useEffect, useRef } from 'react';
 import { motion, useInView, useSpring, useTransform, useMotionValue } from 'framer-motion';
-import { Toaster } from 'react-hot-toast';
 import {
   ArrowRight, Zap, Shield, Globe, Wallet, Repeat, CheckCircle,
   Lock, BarChart3, Clock, Eye, ChevronDown, ChevronUp, Layers,
@@ -50,7 +49,7 @@ const scaleIn = { hidden: { opacity: 0, scale: 0.95 }, visible: { opacity: 1, sc
 
 function SectionHeader({ badge, title, subtitle }) {
   return (
-    <motion.div variants={fadeUp} initial="hidden" whileInView="visible" viewport={{ once: true, margin: '-80px' }} transition={{ duration: 0.6 }} className="text-center mb-10 sm:mb-14">
+    <motion.div variants={fadeUp} initial="hidden" whileInView="visible" viewport={{ once: false, margin: '-80px' }} transition={{ duration: 0.6 }} className="text-center mb-10 sm:mb-14">
       {badge && <span className="badge mb-4 sm:mb-5 inline-block text-[10px] sm:text-xs">{badge}</span>}
       <h2 className="text-2xl sm:text-3xl md:text-4xl lg:text-[42px] font-extrabold text-slate-900 mb-3 sm:mb-4 leading-tight tracking-tight px-2">{title}</h2>
       {subtitle && <p className="text-slate-500 max-w-2xl mx-auto text-base sm:text-lg leading-relaxed px-4">{subtitle}</p>}
@@ -264,8 +263,6 @@ export default function LandingPage() {
 
   return (
     <div className="relative">
-      <Toaster position="top-right" toastOptions={{ style: { background: '#fff', color: '#1e293b', border: '1px solid #e2e8f0', borderRadius: '16px', fontFamily: 'Inter, sans-serif', boxShadow: '0 4px 20px rgba(0,0,0,0.08)' } }} />
-
       {/* ═══ HERO + SWAP ═══ */}
       <section className="relative pt-6 pb-14 sm:pt-10 sm:pb-20 md:pt-16 md:pb-28 px-3 sm:px-4 overflow-hidden">
         <div className="absolute top-0 right-0 w-[300px] sm:w-[600px] h-[300px] sm:h-[600px] bg-purple-100/40 rounded-full blur-[80px] sm:blur-[120px] -translate-y-1/2 translate-x-1/3 pointer-events-none" />
@@ -331,7 +328,7 @@ export default function LandingPage() {
       {/* ═══ STATS ═══ */}
       <section className="py-10 sm:py-16 px-3 sm:px-4 bg-section-light border-y border-slate-100">
         <div className="max-w-5xl mx-auto">
-          <motion.div variants={stagger} initial="hidden" whileInView="visible" viewport={{ once: true }} className="grid grid-cols-2 md:grid-cols-4 gap-4 sm:gap-8">
+          <motion.div variants={stagger} initial="hidden" whileInView="visible" viewport={{ once: false }} className="grid grid-cols-2 md:grid-cols-4 gap-4 sm:gap-8">
             {[
               { value: 1000, suffix: '+', label: 'Tokens Available' },
               { value: 5, suffix: '+', label: 'Price Sources' },
@@ -353,7 +350,7 @@ export default function LandingPage() {
       <section id="features" className="py-16 sm:py-24 px-3 sm:px-4">
         <div className="max-w-6xl mx-auto">
           <SectionHeader badge="OUR FEATURES" title={<>A Unified Platform for <span className="text-purple-600">All Your Swaps</span></>} subtitle="From real-time pricing to non-custodial security — everything you need." />
-          <motion.div variants={stagger} initial="hidden" whileInView="visible" viewport={{ once: true, margin: '-60px' }} className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6">
+          <motion.div variants={stagger} initial="hidden" whileInView="visible" viewport={{ once: false, margin: '-60px' }} className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6">
             {features.map((f) => (
               <motion.div key={f.title} variants={fadeUp} transition={{ duration: 0.5 }} whileHover={{ y: -4 }} className={`card ${f.border} p-5 sm:p-7`}>
                 <div className={`w-10 h-10 sm:w-12 sm:h-12 rounded-lg sm:rounded-xl ${f.iconBg} flex items-center justify-center mb-4 sm:mb-5`}>{f.icon}</div>
@@ -369,7 +366,7 @@ export default function LandingPage() {
       <section id="how-it-works" className="py-16 sm:py-24 px-3 sm:px-4 bg-section-light">
         <div className="max-w-5xl mx-auto">
           <SectionHeader badge="HOW IT WORKS" title={<>Your Swap in <span className="text-purple-600">4 Simple Steps</span></>} subtitle="From wallet connection to completed swap — it only takes seconds." />
-          <motion.div variants={stagger} initial="hidden" whileInView="visible" viewport={{ once: true, margin: '-60px' }} className="grid grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-6">
+          <motion.div variants={stagger} initial="hidden" whileInView="visible" viewport={{ once: false, margin: '-60px' }} className="grid grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-6">
             {steps.map((step) => (
               <motion.div key={step.num} variants={fadeUp} transition={{ duration: 0.5 }} whileHover={{ y: -4 }} className="card p-4 sm:p-7 text-center card-purple">
                 <div className={`w-8 h-8 sm:w-10 sm:h-10 rounded-full ${step.color} flex items-center justify-center mx-auto mb-2.5 sm:mb-4 text-xs sm:text-sm font-bold`}>{step.num}</div>
@@ -386,7 +383,7 @@ export default function LandingPage() {
       <section className="py-16 sm:py-24 px-3 sm:px-4">
         <div className="max-w-6xl mx-auto">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-10 sm:gap-16 items-center">
-            <motion.div initial={{ opacity: 0, x: -30 }} whileInView={{ opacity: 1, x: 0 }} viewport={{ once: true }} transition={{ duration: 0.6 }}>
+            <motion.div initial={{ opacity: 0, x: -30 }} whileInView={{ opacity: 1, x: 0 }} viewport={{ once: false }} transition={{ duration: 0.6 }}>
               <span className="badge mb-4 sm:mb-5 inline-block text-[10px] sm:text-xs">SECURITY</span>
               <h2 className="text-2xl sm:text-3xl md:text-4xl font-extrabold text-slate-900 mb-3 sm:mb-4 leading-tight">Your Assets Are <span className="text-purple-600">Always</span> Under Your Control</h2>
               <p className="text-slate-500 text-base sm:text-lg leading-relaxed mb-6 sm:mb-8">EtherSwap is built with security-first principles. We never hold your funds and every transaction is transparent on Ethereum.</p>
@@ -402,7 +399,7 @@ export default function LandingPage() {
                 ))}
               </div>
             </motion.div>
-            <motion.div initial={{ opacity: 0, x: 30 }} whileInView={{ opacity: 1, x: 0 }} viewport={{ once: true }} transition={{ duration: 0.6, delay: 0.2 }} className="flex justify-center">
+            <motion.div initial={{ opacity: 0, x: 30 }} whileInView={{ opacity: 1, x: 0 }} viewport={{ once: false }} transition={{ duration: 0.6, delay: 0.2 }} className="flex justify-center">
               <div className="relative w-full max-w-sm sm:max-w-md">
                 <div className="absolute -inset-4 bg-gradient-to-br from-purple-100 to-blue-50 rounded-3xl blur-2xl opacity-60" />
                 <div className="relative bg-white border border-slate-200 rounded-2xl sm:rounded-3xl p-6 sm:p-10 shadow-lg">
@@ -425,7 +422,7 @@ export default function LandingPage() {
       <section className="py-16 sm:py-24 px-3 sm:px-4 bg-section-light">
         <div className="max-w-6xl mx-auto">
           <SectionHeader badge="TESTIMONIALS" title={<>Trusted by <span className="text-purple-600">Traders Worldwide</span></>} />
-          <motion.div variants={stagger} initial="hidden" whileInView="visible" viewport={{ once: true, margin: '-60px' }} className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 sm:gap-6">
+          <motion.div variants={stagger} initial="hidden" whileInView="visible" viewport={{ once: false, margin: '-60px' }} className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 sm:gap-6">
             {testimonials.map((t) => (
               <motion.div key={t.name} variants={fadeUp} transition={{ duration: 0.5 }} whileHover={{ y: -4 }} className="card p-5 sm:p-7">
                 <div className="text-purple-200 text-3xl sm:text-4xl font-serif mb-2 sm:mb-3">"</div>
@@ -445,7 +442,7 @@ export default function LandingPage() {
       <section className="py-16 sm:py-24 px-3 sm:px-4">
         <div className="max-w-3xl mx-auto">
           <SectionHeader badge="FAQ" title={<>Frequently Asked <span className="text-purple-600">Questions</span></>} />
-          <motion.div variants={stagger} initial="hidden" whileInView="visible" viewport={{ once: true, margin: '-60px' }} className="card p-5 sm:p-8 md:p-10">
+          <motion.div variants={stagger} initial="hidden" whileInView="visible" viewport={{ once: false, margin: '-60px' }} className="card p-5 sm:p-8 md:p-10">
             {faqs.map((faq) => <FaqItem key={faq.q} q={faq.q} a={faq.a} />)}
           </motion.div>
         </div>
@@ -453,19 +450,19 @@ export default function LandingPage() {
 
       {/* ═══ FINAL CTA ═══ */}
       <section className="py-16 sm:py-24 px-3 sm:px-4 bg-section-light">
-        <motion.div initial={{ opacity: 0, y: 30 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.6 }} className="max-w-4xl mx-auto text-center">
+        <motion.div initial={{ opacity: 0, y: 30 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: false }} transition={{ duration: 0.6 }} className="max-w-4xl mx-auto text-center">
           <div className="relative p-8 sm:p-14 md:p-20 rounded-2xl sm:rounded-3xl bg-gradient-to-br from-purple-600 to-purple-800 overflow-hidden">
             <div className="absolute top-0 right-0 w-40 sm:w-80 h-40 sm:h-80 bg-purple-500/30 rounded-full blur-[50px] sm:blur-[80px] pointer-events-none" />
             <div className="absolute bottom-0 left-0 w-32 sm:w-60 h-32 sm:h-60 bg-blue-500/20 rounded-full blur-[50px] sm:blur-[80px] pointer-events-none" />
             <div className="relative z-10">
-              <motion.div initial={{ scale: 0 }} whileInView={{ scale: 1 }} viewport={{ once: true }} transition={{ type: 'spring', duration: 0.6 }}
-                className="w-12 h-12 sm:w-16 sm:h-16 mx-auto rounded-xl sm:rounded-2xl bg-white/20 backdrop-blur-sm flex items-center justify-center mb-4 sm:mb-6"
-              ><ArrowDownUp size={24} className="text-white sm:hidden" /><ArrowDownUp size={30} className="text-white hidden sm:block" /></motion.div>
+              <motion.div initial={{ scale: 0 }} whileInView={{ scale: 1 }} viewport={{ once: false }} transition={{ type: 'spring', duration: 0.6 }}
+                className="w-36 h-36 sm:w-48 sm:h-48 mx-auto rounded-3xl bg-white/20 backdrop-blur-sm flex items-center justify-center mb-6 sm:mb-8 overflow-hidden"
+              ><img src="/logo.png" alt="EtherSwap" className="w-28 h-28 sm:w-40 sm:h-40 object-contain" /></motion.div>
               <h2 className="text-2xl sm:text-3xl md:text-5xl font-extrabold text-white mb-3 sm:mb-5">Ready to Swap?</h2>
               <p className="text-purple-200 mb-6 sm:mb-10 text-sm sm:text-lg max-w-xl mx-auto">Scroll up and start swapping tokens right now. No sign-up required.</p>
               <motion.button whileHover={{ scale: 1.04 }} whileTap={{ scale: 0.97 }} onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
                 className="px-6 sm:px-10 py-3 sm:py-4 bg-white text-purple-700 rounded-full font-bold text-sm sm:text-lg shadow-xl hover:shadow-2xl transition-shadow flex items-center gap-2 sm:gap-3 mx-auto"
-              >Swap Now <ArrowRight size={18} /></motion.button>
+              >Start Swapping <ArrowRight size={18} /></motion.button>
             </div>
           </div>
         </motion.div>

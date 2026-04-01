@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
+import toast from 'react-hot-toast';
 import { ArrowDownUp, Loader2, AlertCircle, CheckCircle2, ExternalLink, QrCode, Wallet, Copy, Check, X, Download, ArrowRight } from 'lucide-react';
 import { useAccount, useBalance, useSendTransaction, useWaitForTransactionReceipt } from 'wagmi';
 import { useConnectModal } from '@rainbow-me/rainbowkit';
@@ -22,6 +23,14 @@ export function SwapMethodModal({
   const [selectedMode, setSelectedMode] = useState(null);
   const [copied, setCopied] = useState(false);
   const [connecting, setConnecting] = useState(false);
+
+  // Escape key to close
+  useEffect(() => {
+    if (!isOpen) return;
+    const handleKeyDown = (e) => { if (e.key === 'Escape') onClose(); };
+    document.addEventListener('keydown', handleKeyDown);
+    return () => document.removeEventListener('keydown', handleKeyDown);
+  }, [isOpen, onClose]);
 
   if (!isOpen) return null;
 
@@ -53,7 +62,7 @@ export function SwapMethodModal({
       onClose();
     } catch (error) {
       console.error('Wallet connection error:', error);
-      alert('Failed to connect wallet: ' + error.message);
+      toast.error('Failed to connect wallet: ' + error.message);
     } finally {
       setConnecting(false);
     }
@@ -61,8 +70,8 @@ export function SwapMethodModal({
 
   if (!selectedMode) {
     return (
-      <div className="fixed inset-0 z-50 flex items-end sm:items-center justify-center sm:p-4 bg-black/60 backdrop-blur-sm" onClick={onClose}>
-        <div className="bg-white rounded-t-2xl sm:rounded-2xl shadow-2xl w-full sm:max-w-lg border border-slate-200 overflow-hidden" onClick={(e) => e.stopPropagation()}>
+      <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} className="fixed inset-0 z-50 flex items-end sm:items-center justify-center sm:p-4 bg-black/60 backdrop-blur-sm" onClick={onClose}>
+        <motion.div initial={{ y: 40, opacity: 0 }} animate={{ y: 0, opacity: 1 }} exit={{ y: 40, opacity: 0 }} transition={{ type: 'spring', damping: 25, stiffness: 300 }} className="bg-white rounded-t-2xl sm:rounded-2xl shadow-2xl w-full sm:max-w-lg border border-slate-200 overflow-hidden" onClick={(e) => e.stopPropagation()}>
           {/* Mobile drag handle */}
           <div className="sm:hidden flex justify-center pt-3 pb-1">
             <div className="w-10 h-1 bg-slate-300 rounded-full" />
@@ -100,8 +109,8 @@ export function SwapMethodModal({
               </button>
             </div>
           </div>
-        </div>
-      </div>
+        </motion.div>
+      </motion.div>
     );
   }
 
@@ -196,7 +205,7 @@ export default function SwapInterface({
       if (fromPrice && toPrice) {
         const fromValue = parseFloat(fromAmount) * fromPrice;
         const toValue = fromValue / toPrice;
-        setToAmount(toValue.toFixed(6));
+        setToAmount(toValue.toFixed(4));
       }
     } catch (err) {
       console.error('Calculation error:', err);
@@ -299,7 +308,7 @@ export default function SwapInterface({
           <div className="p-2.5 sm:p-3 bg-purple-50 rounded-lg sm:rounded-xl border border-purple-100">
             <div className="flex justify-between text-xs sm:text-sm">
               <span className="text-slate-500">Rate</span>
-              <span className="text-slate-900 font-semibold text-right">1 {fromToken.symbol} ≈ {(prices[fromToken.symbol] / prices[toToken.symbol]).toFixed(6)} {toToken.symbol}</span>
+              <span className="text-slate-900 font-semibold text-right">1 {fromToken.symbol} ≈ {(prices[fromToken.symbol] / prices[toToken.symbol]).toFixed(4)} {toToken.symbol}</span>
             </div>
           </div>
         )}
@@ -353,7 +362,16 @@ export default function SwapInterface({
           whileTap={{ scale: 0.97 }}
           onClick={handleSwapClick}
           disabled={loading || !fromAmount || parseFloat(fromAmount) <= 0}
-          className={`w-full bg-purple-600 hover:bg-purple-700 text-white py-3 sm:py-4 rounded-xl sm:rounded-2xl font-bold text-base sm:text-lg disabled:opacity-40 disabled:cursor-not-allowed shadow-lg shadow-purple-200 hover:shadow-xl hover:shadow-purple-300 transition-all flex items-center justify-center gap-2 ${!loading && fromAmount && parseFloat(fromAmount) > 0 ? 'glow-ring' : ''}`}
+          aria-busy={loading}
+          animate={{
+            boxShadow: (!loading && fromAmount && parseFloat(fromAmount) > 0)
+              ? ['0 0 0 0 rgba(147,51,234,0.4)', '0 0 0 8px rgba(147,51,234,0)', '0 0 0 0 rgba(147,51,234,0.4)']
+              : '0 0 0 0 rgba(147,51,234,0)'
+          }}
+          transition={{
+            boxShadow: { duration: 2, ease: 'easeInOut', repeat: Infinity },
+          }}
+          className="w-full bg-purple-600 hover:bg-purple-700 text-white py-3 sm:py-4 rounded-xl sm:rounded-2xl font-bold text-base sm:text-lg disabled:opacity-40 disabled:cursor-not-allowed shadow-lg shadow-purple-200 hover:shadow-xl hover:shadow-purple-300 transition-colors flex items-center justify-center gap-2"
         >
           {loading ? (
             <><Loader2 className="w-4 h-4 sm:w-5 sm:h-5 animate-spin" />{isConfirming ? 'Confirming...' : 'Processing...'}</>
