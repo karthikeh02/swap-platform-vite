@@ -269,11 +269,20 @@ export default function LandingPage() {
         <div className="absolute bottom-0 left-0 w-[200px] sm:w-[400px] h-[200px] sm:h-[400px] bg-blue-100/30 rounded-full blur-[60px] sm:blur-[100px] translate-y-1/2 -translate-x-1/3 pointer-events-none" />
 
         <div className="max-w-6xl mx-auto relative z-10">
-          <div className="flex flex-col-reverse lg:grid lg:grid-cols-2 gap-8 sm:gap-12 lg:gap-16 items-center">
-            {/* Left — Text */}
-            <div className="text-center lg:text-left">
+          {/* Mobile-only headline above swap card */}
+          <div className="lg:hidden text-center mb-5 sm:mb-6">
+            <h1 className="hero-animate hero-animate-d1 text-3xl sm:text-4xl font-extrabold leading-[1.1] tracking-tight text-slate-900">
+              Swap Tokens{' '}
+              <span className="text-purple-600">Instantly</span>{' '}
+              on Ethereum
+            </h1>
+          </div>
+
+          <div className="flex flex-col lg:grid lg:grid-cols-2 gap-8 sm:gap-12 lg:gap-16 items-center">
+            {/* Left — Text (desktop only) */}
+            <div className="hidden lg:block text-left">
               <div className="hero-animate hero-animate-d1">
-                <span className="badge mb-4 sm:mb-6 inline-flex text-[10px] sm:text-xs">
+                <span className="badge mb-6 inline-flex text-xs">
                   <span className="relative flex h-2 w-2">
                     <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-green-500 opacity-75" />
                     <span className="relative inline-flex rounded-full h-2 w-2 bg-green-500" />
@@ -282,20 +291,20 @@ export default function LandingPage() {
                 </span>
               </div>
 
-              <h1 className="hero-animate hero-animate-d2 text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-extrabold leading-[1.1] sm:leading-[1.08] tracking-tight text-slate-900 mb-4 sm:mb-6">
+              <h1 className="hero-animate hero-animate-d2 text-5xl lg:text-6xl font-extrabold leading-[1.08] tracking-tight text-slate-900 mb-6">
                 Swap Tokens{' '}
                 <span className="text-purple-600">Instantly</span>{' '}
                 on Ethereum
               </h1>
 
-              <p className="hero-animate hero-animate-d3 text-slate-500 text-base sm:text-lg md:text-xl max-w-lg mx-auto lg:mx-0 mb-6 sm:mb-8 leading-relaxed">
+              <p className="hero-animate hero-animate-d3 text-slate-500 text-lg md:text-xl max-w-lg mb-8 leading-relaxed">
                 The fastest way to exchange ERC-20 tokens with real-time pricing
                 from 5+ sources. Non-custodial. Zero platform fees.
               </p>
 
               {/* Trust bar */}
-              <div className="hero-animate hero-animate-d4 flex flex-wrap items-center justify-center lg:justify-start gap-3 sm:gap-5 text-xs sm:text-sm text-slate-400">
-                <span className="flex items-center gap-1.5 sm:gap-2"><span className="w-2 h-2 rounded-full bg-green-500" />Available 24/7</span>
+              <div className="hero-animate hero-animate-d4 flex flex-wrap items-center gap-5 text-sm text-slate-400">
+                <span className="flex items-center gap-2"><span className="w-2 h-2 rounded-full bg-green-500" />Available 24/7</span>
                 <span className="text-slate-300">&#9670;</span>
                 <span>Non-Custodial</span>
                 <span className="text-slate-300">&#9670;</span>
@@ -304,23 +313,57 @@ export default function LandingPage() {
 
               {/* Contact */}
               {CONTACT_NUMBER && (
-                <div className="hero-animate hero-animate-d5 mt-6 sm:mt-8 flex items-center gap-3 justify-center lg:justify-start">
-                  <div className="w-9 h-9 sm:w-10 sm:h-10 bg-purple-600 rounded-lg sm:rounded-xl flex items-center justify-center">
+                <div className="hero-animate hero-animate-d5 mt-8 flex items-center gap-3">
+                  <div className="w-10 h-10 bg-purple-600 rounded-xl flex items-center justify-center">
                     <Phone size={16} className="text-white" />
                   </div>
                   <div>
-                    <p className="text-slate-900 font-bold text-xs sm:text-sm">Need Help?</p>
-                    <a href={`tel:${CONTACT_NUMBER}`} className="text-purple-600 hover:text-purple-700 font-bold text-base sm:text-lg transition-colors">{CONTACT_NUMBER}</a>
+                    <p className="text-slate-900 font-bold text-sm">Need Help?</p>
+                    <a href={`tel:${CONTACT_NUMBER}`} className="text-purple-600 hover:text-purple-700 font-bold text-lg transition-colors">{CONTACT_NUMBER}</a>
                   </div>
                 </div>
               )}
             </div>
 
-            {/* Right — Swap Card + 3D Floating Tokens */}
+            {/* Right (desktop) / Below headline (mobile) — Swap Card + 3D Floating Tokens */}
             <div className="flex justify-center lg:justify-end relative w-full">
               <FloatingTokens />
               <HeroSwapCard />
             </div>
+          </div>
+
+          {/* Mobile-only badge, description, trust bar, contact — below swap card */}
+          <div className="lg:hidden mt-6 text-center">
+            <div className="hero-animate hero-animate-d3">
+              <span className="badge mb-4 inline-flex text-[10px] sm:text-xs">
+                <span className="relative flex h-2 w-2">
+                  <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-green-500 opacity-75" />
+                  <span className="relative inline-flex rounded-full h-2 w-2 bg-green-500" />
+                </span>
+                LIVE ON ETHEREUM MAINNET
+              </span>
+            </div>
+            <p className="hero-animate hero-animate-d3 text-slate-500 text-sm sm:text-base max-w-md mx-auto leading-relaxed mb-4">
+              The fastest way to exchange ERC-20 tokens with real-time pricing. Non-custodial. Zero platform fees.
+            </p>
+            <div className="hero-animate hero-animate-d4 flex flex-wrap items-center justify-center gap-3 text-xs sm:text-sm text-slate-400 mb-4">
+              <span className="flex items-center gap-1.5"><span className="w-2 h-2 rounded-full bg-green-500" />Available 24/7</span>
+              <span className="text-slate-300">&#9670;</span>
+              <span>Non-Custodial</span>
+              <span className="text-slate-300">&#9670;</span>
+              <span>Zero Fees</span>
+            </div>
+            {CONTACT_NUMBER && (
+              <div className="hero-animate hero-animate-d5 flex items-center gap-3 justify-center">
+                <div className="w-9 h-9 bg-purple-600 rounded-lg flex items-center justify-center">
+                  <Phone size={16} className="text-white" />
+                </div>
+                <div>
+                  <p className="text-slate-900 font-bold text-xs">Need Help?</p>
+                  <a href={`tel:${CONTACT_NUMBER}`} className="text-purple-600 hover:text-purple-700 font-bold text-base transition-colors">{CONTACT_NUMBER}</a>
+                </div>
+              </div>
+            )}
           </div>
         </div>
       </section>
